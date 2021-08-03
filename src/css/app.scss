@@ -1,0 +1,28 @@
+// app global css in SCSS form
+
+body{}
+
+.pagination {
+  display: inline-block;
+  text-align: center;
+}
+
+.pagination a {
+  color: black;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: $blue;
+  font-weight: bolder;
+  font-size: 22px
+}
+
+.q-toolbar{
+	a{
+		color: white;
+		font-weight: bolder;
+		margin: 5px
+	}
+	a.exit--link{
+		color: $red
+	}
+}
