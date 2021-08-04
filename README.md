@@ -1,4 +1,4 @@
-# Quasar App (animal_finder_client)
+# Animal Finder - Urbano
 
 A Quasar Framework app
 

@@ -40,10 +40,10 @@
         <div class="text-h6">Faca o login</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="user.email"  placeholder="Digite o seu email" autofocus @keyup.enter="prompt = false" />
+        <q-input dense v-model="user.email"  placeholder="Digite o seu email" autofocus @keyup.enter="doLogin()" />
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="user.password" type="password" placeholder="Senha" autofocus @keyup.enter="prompt = false" />
+        <q-input dense v-model="user.password" type="password" placeholder="Senha" autofocus @keyup.enter="doLogin()" />
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
         <q-btn color="red" label="Cancelar" v-close-popup />
@@ -79,10 +79,10 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { LocalStorage } from 'quasar'
 
 const axios = require('axios').default
 const apiUrl = 'http://172.17.0.2:3000'
+import { Notify } from 'quasar'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -103,7 +103,7 @@ export default defineComponent({
   },
 
   mounted () {
-    const loggedData = localStorage.getItem('user')
+    const loggedData = window.localStorage.getItem('token')
     if (loggedData) {
       this.logged = true
     } else {
@@ -121,17 +121,22 @@ export default defineComponent({
       }).then(response => {
         this.data = response.data
         if (this.data.token == null) {
-          alert('Error')
+          Notify.create(
+            {
+              type: 'negative',
+              message: 'Usuario ou senha invalidos'
+            }
+          )
         } else {
           window.location.href = '#/account?login=success'
           this.loginPrompt = false
           this.logged = true
-          LocalStorage.set('user', this.data)
+          window.localStorage.setItem('token', this.data.token)
         }
       })
     },
     doLogout () {
-      LocalStorage.clear('user')
+      window.localStorage.clear('token')
       this.logged = false
       window.location.href = '#/'
     }
