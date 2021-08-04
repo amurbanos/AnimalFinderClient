@@ -19,10 +19,12 @@
           <tr v-for="pet in data.pets" :key="pet.id">
             <td class="mobile-hide">{{pet.id}}</td>
             <td>
-              {{pet.name}}<br />
+              <strong>{{pet.name}}</strong><br />
+              <label class="mobile-only">Idade: {{pet.age}}</label><br />
               <strong class="mobile-only text-red" v-if="pet.status == 1" >Perdido</strong>
               <strong class="mobile-only text-orange" v-if="pet.status == 2" >Comunicado</strong>
               <strong class="mobile-only text-green" v-if="pet.status == 3" >Encontrato</strong>
+              <p class="mobile-only">Info: {{pet.information}}</p>
             </td>
             <td class="mobile-hide">{{pet.age}}</td>
             <td class="mobile-hide">
