@@ -1,26 +1,21 @@
-# Animal Finder - Urbano
+# Animal Finder Client - Urbano
 
-A Quasar Framework app
+Usando Vue.js + Quasar Framework
 
-## Install the dependencies
+## Instalar dependencias
 ```bash
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Iniciar em modo DEV
 ```bash
 quasar dev
 ```
 
-### Lint the files
-```bash
-npm run lint
-```
-
-### Build the app for production
+### Preparar para producao
 ```bash
 quasar build
 ```
 
-### Customize the configuration
-See [Configuring quasar.conf.js](https://v2.quasar.dev/quasar-cli/quasar-conf-js).
+### Configuracao
+A url da api deve ser setada no arquivo src/config.js
