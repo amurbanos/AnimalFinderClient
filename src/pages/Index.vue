@@ -3,10 +3,10 @@
     <div class="row main--row">
       <div class="col-12" >
         <h3>
-          Ajude a encontrar os nossos melhores amigos
+          Perdidos
         </h3>
       </div>
-      <div v-for="pet in data.pets" :key="pet.id" class="col-lg-3 col-sm-6 col-12 pet--card">
+      <div v-for="pet in data.pets" :key="pet.id" class="col-lg-3 col-sm-4 col-12 pet--card">
         <div class="text-center" >
           <img :src="apiUrl + pet.image_url">
         </div>
@@ -19,8 +19,8 @@
         <div>
           Descricao: {{ pet.age }}
         </div>
-        <div class="q-gutter-lg">
-          <q-btn color="black" label="Encontrei" class="btn--report" @click="prompt = true" />
+        <div>
+          <q-btn color="black" label="Encontrei" class="btn--report" @click="promptPetFound = true; petFound = pet" />
         </div>
       </div>
     </div>
@@ -34,26 +34,19 @@
     </div>
   </q-page>
   <!--Notificar-->
-  <q-dialog v-model="prompt" persistent>
+  <q-dialog v-model="promptPetFound" persistent>
     <q-card style="min-width: 350px">
       <q-card-section>
-        <div class="text-h6">Comunicar animal encontrado</div>
-      </q-card-section>
-      <q-card-section>
-        <div class="text-h6">Estado</div>
+        <div class="text-h6">Digite seu telefona para contato</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="address" autofocus @keyup.enter="prompt = false" />
-      </q-card-section>
-      <q-card-section>
-        <div class="text-h6">Cidade</div>
-      </q-card-section>
-      <q-card-section class="q-pt-none">
-        <q-input dense v-model="address" autofocus @keyup.enter="prompt = false" />
+        <q-input dense v-model="petFound.information" placeholder="Digite o seu telefone para contato"
+          mask="(##) ##### - ####"
+          autofocus @keyup.enter="validatePetFound()" class="text-center" />
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Cancelar" v-close-popup />
-        <q-btn flat label="Confirmar" v-close-popup />
+        <q-btn flat label="Comunicar" @click="validatePetFound()"/>
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -61,8 +54,10 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { global } from '../config.js'
+import { Notify } from 'quasar'
 
-const apiUrl = 'http://172.17.0.2:3000'
+const apiUrl = global.apiUrl
 const axios = require('axios').default
 
 export default defineComponent({
@@ -72,18 +67,61 @@ export default defineComponent({
     return {
       data: {},
       apiUrl: apiUrl,
-      prompt: false
+      promptPetFound: false,
+      petFound: {}
     }
   },
   mounted () {
     this.getPage(1)
   },
   methods: {
+
     getPage (page) {
       axios
         .get(apiUrl + '/api/v1/pets?' + 'page=' + page)
         .then(response => (this.data = response.data))
+    },
+
+    validatePetFound () {
+      if (this.petFound.information) {
+        this.setPetFound()
+      } else {
+        Notify.create(
+          {
+            type: 'negative',
+            message: 'Digite o telefone'
+          }
+        )
+      }
+    },
+
+    setPetFound () {
+      const data = JSON.stringify({ pet: this.petFound })
+      axios.patch(apiUrl + '/api/v1/pets/' + this.petFound.id, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: this.token
+        }
+      }).then(response => {
+        Notify.create(
+          {
+            type: 'positive',
+            message: 'Notificado com sucesso, aguarde o contato!'
+          }
+        )
+        this.getPage(1)
+        this.promptPetFound = false
+      }).catch(error => {
+        Notify.create(
+          {
+            type: 'negative',
+            message: 'Nao foi possivel notificar'
+          }
+        )
+        this.pet.errors = error.response.data
+      })
     }
+
   }
 })
 </script>
