@@ -46,8 +46,8 @@
         <q-input dense v-model="user.password" type="password" placeholder="Senha" autofocus @keyup.enter="doLogin()" />
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
-        <q-btn color="red" label="Cancelar" v-close-popup />
-        <q-btn color="black" label="Entrar" @click="doLogin()" />
+        <q-btn flat label="Cancelar" v-close-popup />
+        <q-btn flat label="Entrar" @click="doLogin()" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -70,8 +70,8 @@
         <q-input dense v-model="user.phone" type="phone" placeholder="Telefone" autofocus @keyup.enter="prompt = false" />
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
-        <q-btn color="red" label="Cancelar" v-close-popup />
-        <q-btn color="black" label="Cadastrar" @click="doLogin()" />
+        <q-btn flat label="Cancelar" v-close-popup />
+        <q-btn flat label="Cadastrar" @click="doLogin()" />
       </q-card-actions>
     </q-card>
   </q-dialog>

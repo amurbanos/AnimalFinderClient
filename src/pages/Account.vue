@@ -13,6 +13,7 @@
             <th>Nome</th>
             <th>Idade</th>
             <th>Status</th>
+            <th>Informacoes</th>
             <th class="col-lg-2" ></th>
           </tr>
           <tr v-for="pet in data.pets" :key="pet.id">
@@ -20,11 +21,12 @@
             <td>{{pet.name}}</td>
             <td>{{pet.age}}</td>
             <td>Estudante</td>
+            <td>Estudante</td>
             <td>
               <div class="q-pa-md q-gutter-sm">
                 <q-btn color="blue" icon="done" />
                 <q-btn color="blue" icon="edit" />
-                <q-btn color="red" icon="delete" />
+                <q-btn color="red" icon="delete" @click="deletePet(pet.id)" />
               </div>
             </td>
           </tr>
@@ -79,6 +81,7 @@ export default defineComponent({
   },
 
   methods: {
+
     getUserData () {
       axios.get(apiUrl + '/api/v1/users', {
         headers: {
@@ -88,7 +91,19 @@ export default defineComponent({
       }).then(response => {
         this.data = response.data
       })
+    },
+
+    deletePet (petId) {
+      axios.delete(apiUrl + '/api/v1/pets/' + petId, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: this.token
+        }
+      }).then(response => {
+        window.location.href = '#/account?delete'
+      })
     }
+
   }
 
 })
