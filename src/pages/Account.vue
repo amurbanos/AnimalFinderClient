@@ -9,23 +9,28 @@
       <div class="col-12">
         <table class="pets--table ">
           <tr>
-            <th>Codigo</th>
+            <th class="mobile-hide">Codigo</th>
             <th>Nome</th>
-            <th>Idade</th>
-            <th>Status</th>
-            <th>Informacoes</th>
+            <th class="mobile-hide">Idade</th>
+            <th class="mobile-hide">Status</th>
+            <th class="mobile-hide">Informacoes</th>
             <th class="col-lg-2" ></th>
           </tr>
           <tr v-for="pet in data.pets" :key="pet.id">
-            <td>{{pet.id}}</td>
-            <td>{{pet.name}}</td>
-            <td>{{pet.age}}</td>
+            <td class="mobile-hide">{{pet.id}}</td>
             <td>
+              {{pet.name}}<br />
+              <strong class="mobile-only text-red" v-if="pet.status == 1" >Perdido</strong>
+              <strong class="mobile-only text-orange" v-if="pet.status == 2" >Comunicado</strong>
+              <strong class="mobile-only text-green" v-if="pet.status == 3" >Encontrato</strong>
+            </td>
+            <td class="mobile-hide">{{pet.age}}</td>
+            <td class="mobile-hide">
               <strong class="text-red" v-if="pet.status == 1" >Perdido</strong>
               <strong class="text-orange" v-if="pet.status == 2" >Comunicado</strong>
               <strong class="text-green" v-if="pet.status == 3" >Encontrato</strong>
             </td>
-            <td>{{pet.information}}</td>
+            <td class="mobile-hide">{{pet.information}}</td>
             <td>
               <div class="q-pa-md q-gutter-sm">
                 <q-btn color="blue" icon="done" />
