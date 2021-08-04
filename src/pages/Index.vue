@@ -128,6 +128,11 @@ export default defineComponent({
 
 <style lang="scss">
 
+  h3{
+    padding: 0 0 ;
+    margin: 0 0;
+  }
+
   .main--row{
     margin: 50px
   }
