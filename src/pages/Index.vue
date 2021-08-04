@@ -11,17 +11,18 @@
           <img :src="apiUrl + pet.image_url">
         </div>
         <div>
-          Nome: {{ pet.name }}
+          <strong>Nome:</strong> {{ pet.name }}
         </div>
         <div>
-          Idade: {{ pet.age }}
+          <strong>Idade:</strong> {{ pet.age }}
         </div>
         <div>
-          Descricao: {{ pet.age }}
+          <strong>Desapareceu em:</strong> {{ pet.city }} - {{ pet.state }}
         </div>
         <div>
           <q-btn color="black" label="Encontrei" class="btn--report" @click="promptPetFound = true; petFound = pet" />
         </div>
+        <hr />
       </div>
     </div>
     <!-- Paginacao -->
