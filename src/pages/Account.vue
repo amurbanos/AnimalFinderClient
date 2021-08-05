@@ -103,7 +103,8 @@
         <div class="text-h6">Cadastrar foto do animal</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-file filled  v-on:change="handleFileUpload($event)" label="Selecione foto do animal" />
+        <q-file filled  v-on:change="handleFileUpload($event)" v-model="pet.src" label="Selecione foto do animal"
+          accept=".jpg, image/*"/>
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Cancelar" v-close-popup />
@@ -290,7 +291,21 @@ export default defineComponent({
           Authorization: this.token
         }
       }).then(response => {
+        Notify.create(
+          {
+            type: 'positive',
+            message: 'Foto salva com sucesso!'
+          }
+        )
+        this.addPetImagePrompt = false
+        this.pet.src = null
       }).catch(error => {
+        Notify.create(
+          {
+            type: 'negative',
+            message: 'Erro ao salvar!'
+          }
+        )
         console.log(error)
       })
     }
