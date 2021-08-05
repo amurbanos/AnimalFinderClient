@@ -16,28 +16,28 @@
             <th class="mobile-hide">Informacoes</th>
             <th class="col-lg-2" ></th>
           </tr>
-          <tr v-for="pet in data.pets" :key="pet.id">
-            <td class="mobile-hide">{{pet.id}}</td>
+          <tr v-for="tmpPet in data.pets" :key="tmpPet.id">
+            <td class="mobile-hide">{{tmpPet.id}}</td>
             <td>
-              <strong>{{pet.name}}</strong><br />
-              <label class="mobile-only">Idade: {{pet.age}}</label><br />
-              <strong class="mobile-only text-red" v-if="pet.status == 1" >Perdido</strong>
-              <strong class="mobile-only text-orange" v-if="pet.status == 2" >Comunicado</strong>
-              <strong class="mobile-only text-green" v-if="pet.status == 3" >Encontrato</strong>
-              <p class="mobile-only">Info: {{pet.information}}</p>
+              <strong>{{tmpPet.name}}</strong><br />
+              <label class="mobile-only">Idade: {{tmpPet.age}}</label><br />
+              <strong class="mobile-only text-red" v-if="tmpPet.status == 1" >Perdido</strong>
+              <strong class="mobile-only text-orange" v-if="tmpPet.status == 2" >Comunicado</strong>
+              <strong class="mobile-only text-green" v-if="tmpPet.status == 3" >Encontrato</strong>
+              <p class="mobile-only">Info: {{tmpPet.information}}</p>
             </td>
-            <td class="mobile-hide">{{pet.age}}</td>
+            <td class="mobile-hide">{{tmpPet.age}}</td>
             <td class="mobile-hide">
-              <strong class="text-red" v-if="pet.status == 1" >Perdido</strong>
-              <strong class="text-orange" v-if="pet.status == 2" >Comunicado</strong>
-              <strong class="text-green" v-if="pet.status == 3" >Encontrato</strong>
+              <strong class="text-red" v-if="tmpPet.status == 1" >Perdido</strong>
+              <strong class="text-orange" v-if="tmpPet.status == 2" >Comunicado</strong>
+              <strong class="text-green" v-if="tmpPet.status == 3" >Encontrato</strong>
             </td>
-            <td class="mobile-hide">{{pet.information}}</td>
+            <td class="mobile-hide">{{tmpPet.information}}</td>
             <td>
               <div class="q-pa-md q-gutter-sm">
-                <q-btn color="blue" icon="image" @click="foundPetPrompt = true; foundPetId = pet.id" v-if="pet.status != 3" />
-                <q-btn color="blue" icon="done" @click="foundPetPrompt = true; foundPetId = pet.id" v-if="pet.status != 3" />
-                <q-btn color="red" icon="delete" @click="deletPetPrompt = true; petDeleteId = pet.id" />
+                <q-btn color="blue" icon="image" @click="addPetImagePrompt = true; pet = tmpPet" v-if="tmpPet.status != 3" />
+                <q-btn color="blue" icon="done" @click="foundPetPrompt = true; pet = tmpPet" v-if="tmpPet.status != 3" />
+                <q-btn color="red" icon="delete" @click="deletPetPrompt = true; pet = tmpPet" />
               </div>
             </td>
           </tr>
@@ -103,20 +103,11 @@
         <div class="text-h6">Cadastrar foto do animal</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="pet.name"  placeholder="Digite o nome do animal" autofocus @keyup.enter="addPet()" />
-        <ul class="error--list" v-if="pet.errors.hasOwnProperty('name')"  >
-          <li v-for="error in pet.errors.name" :key="error" >
-            {{error}}
-          </li>
-        </ul>
-      </q-card-section>
-      <q-card-section class="q-pt-none">
-        <q-input dense v-model="pet.information"
-          placeholder="Digite aqui outros informacoes relevantes" autofocus @keyup.enter="addPet()" />
+        <q-file filled  v-on:change="handleFileUpload($event)" label="Selecione foto do animal" />
       </q-card-section>
       <q-card-actions align="right" class="text-primary">
         <q-btn flat label="Cancelar" v-close-popup />
-        <q-btn flat label="Cadastrar" @click="addPet()" />
+        <q-btn flat label="Cadastrar" @click="addPetImage()" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -172,13 +163,10 @@ export default defineComponent({
         information: null,
         errors: {}
       },
-      petDeleteId: null,
       addPetPrompt: false,
       addPetImagePrompt: false,
       deletPetPrompt: false,
-      foundPetPrompt: false,
-      foundPetId: false,
-      imagePetPrompt: false
+      foundPetPrompt: false
     }
   },
 
@@ -232,7 +220,7 @@ export default defineComponent({
     },
 
     deletePet () {
-      axios.delete(apiUrl + '/api/v1/pets/' + this.petDeleteId, {
+      axios.delete(apiUrl + '/api/v1/pets/' + this.pet.id, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: this.token
@@ -243,7 +231,7 @@ export default defineComponent({
     },
 
     foundPet () {
-      axios.patch(apiUrl + '/api/v1/pets/found/' + this.foundPetId, {}, {
+      axios.patch(apiUrl + '/api/v1/pets/found/' + this.pet.id, {}, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: this.token
@@ -286,7 +274,27 @@ export default defineComponent({
         )
         this.pet.errors = error.response.data
       })
+    },
+
+    handleFileUpload (event) {
+      // console.log(event)
+      this.pet.image = event.target.files[0]
+    },
+
+    addPetImage () {
+      const data = new FormData()
+      data.append('image', this.pet.image)
+      axios.patch(apiUrl + '/api/v1/pets/image/' + this.pet.id, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: this.token
+        }
+      }).then(response => {
+      }).catch(error => {
+        console.log(error)
+      })
     }
+
   }
 
 })
