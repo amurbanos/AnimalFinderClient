@@ -35,6 +35,7 @@
             <td class="mobile-hide">{{pet.information}}</td>
             <td>
               <div class="q-pa-md q-gutter-sm">
+                <q-btn color="blue" icon="image" @click="foundPetPrompt = true; foundPetId = pet.id" v-if="pet.status != 3" />
                 <q-btn color="blue" icon="done" @click="foundPetPrompt = true; foundPetId = pet.id" v-if="pet.status != 3" />
                 <q-btn color="red" icon="delete" @click="deletPetPrompt = true; petDeleteId = pet.id" />
               </div>
@@ -176,7 +177,8 @@ export default defineComponent({
       addPetImagePrompt: false,
       deletPetPrompt: false,
       foundPetPrompt: false,
-      foundPetId: false
+      foundPetId: false,
+      imagePetPrompt: false
     }
   },
 

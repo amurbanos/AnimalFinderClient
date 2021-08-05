@@ -84,7 +84,7 @@
       <q-card-section class="q-pt-none">
         <q-input dense v-model="user.phone" placeholder="Telefone"
           mask="(##) ##### - ####"
-          autofocus @keyup.enter="prompt = false" />
+          autofocus @keyup.enter="validateSignup()"/>
         <ul class="error--list" v-if="user.errors.hasOwnProperty('phone')"  >
           <li v-for="error in user.errors.phone" :key="error" >
             {{error}}
