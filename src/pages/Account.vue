@@ -35,8 +35,7 @@
             <td class="mobile-hide">{{pet.information}}</td>
             <td>
               <div class="q-pa-md q-gutter-sm">
-                <q-btn color="blue" icon="done" />
-                <q-btn color="blue" icon="image" />
+                <q-btn color="blue" icon="done" @click="foundPetPrompt = true; foundPetId = pet.id" v-if="pet.status != 3" />
                 <q-btn color="red" icon="delete" @click="deletPetPrompt = true; petDeleteId = pet.id" />
               </div>
             </td>
@@ -128,7 +127,19 @@
       </q-card-section>
       <q-card-actions align="right">
         <q-btn flat label="Cancelar" color="primary" v-close-popup />
-        <q-btn flat label="Confirmar" color="primary" v-close-popup @click="deletePet(pet.id)" />
+        <q-btn flat label="Confirmar" color="primary" v-close-popup @click="deletePet()" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+  <!--Confirmar animal encontrado-->
+  <q-dialog v-model="foundPetPrompt" persistent>
+    <q-card>
+      <q-card-section class="row items-center">
+        <span class="q-ml-sm">Confirmar animal encontrado?</span>
+      </q-card-section>
+      <q-card-actions align="right">
+        <q-btn flat label="Cancelar" color="primary" v-close-popup />
+        <q-btn flat label="Confirmar" color="primary" v-close-popup @click="foundPet()" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -163,7 +174,9 @@ export default defineComponent({
       petDeleteId: null,
       addPetPrompt: false,
       addPetImagePrompt: false,
-      deletPetPrompt: false
+      deletPetPrompt: false,
+      foundPetPrompt: false,
+      foundPetId: false
     }
   },
 
@@ -202,6 +215,17 @@ export default defineComponent({
         }
       }).then(response => {
         this.data = response.data
+      }).catch(error => {
+        window.localStorage.clear('token')
+        if (error.response.data.errors === 'Signature verification raised') {
+          window.location.href = '/?login=do'
+          Notify.create(
+            {
+              type: 'negative',
+              message: 'Faca login para Area restrita!'
+            }
+          )
+        }
       })
     },
 
@@ -213,6 +237,25 @@ export default defineComponent({
         }
       }).then(response => {
         this.getUserData()
+      })
+    },
+
+    foundPet () {
+      axios.patch(apiUrl + '/api/v1/pets/found/' + this.foundPetId, {}, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: this.token
+        }
+      }).then(response => {
+        Notify.create(
+          {
+            type: 'positive',
+            message: 'Animal atualizado para ENCONTRADO!'
+          }
+        )
+        this.getUserData()
+      }).catch(error => {
+        console.log(error)
       })
     },
 
