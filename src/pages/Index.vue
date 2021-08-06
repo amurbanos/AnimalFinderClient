@@ -41,11 +41,11 @@
         <div class="text-h6">Digite seus dados para contato</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="petFound.informationName" placeholder="Digite o seu nome"
+        <q-input dense v-model="petFound.found_name" placeholder="Digite o seu nome"
           autofocus @keyup.enter="validatePetFound()" class="text-center" />
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="petFound.informationPhone" placeholder="Digite o seu telefone"
+        <q-input dense v-model="petFound.found_phone" placeholder="Digite o seu telefone"
           mask="(##) ##### - ####"
           autofocus @keyup.enter="validatePetFound()" class="text-center" />
       </q-card-section>
@@ -88,10 +88,8 @@ export default defineComponent({
     },
 
     validatePetFound () {
-      if (this.petFound.informationName && this.petFound.informationPhone) {
-        this.petFound.information =
-          'Nome:' + this.petFound.informationName + ' ' +
-          'Telefone: ' + this.petFound.informationPhone
+      if (this.petFound.found_name && this.petFound.found_phone) {
+        this.petFound.status = 2
         this.setPetFound()
       } else {
         Notify.create(

@@ -13,7 +13,7 @@
             <th>Nome</th>
             <th class="mobile-hide">Idade</th>
             <th class="mobile-hide">Status</th>
-            <th class="mobile-hide">Informacoes</th>
+            <th class="mobile-hide">Comunicado</th>
             <th class="col-lg-2" ></th>
           </tr>
           <tr v-for="tmpPet in data.pets" :key="tmpPet.id">
@@ -25,6 +25,8 @@
               <strong class="mobile-only text-orange" v-if="tmpPet.status == 2" >Comunicado</strong>
               <strong class="mobile-only text-green" v-if="tmpPet.status == 3" >Encontrato</strong>
               <p class="mobile-only">Info: {{tmpPet.information}}</p>
+              <p class="mobile-only">Info: {{tmpPet.city}}</p>
+              <p class="mobile-only">Info: {{tmpPet.state}}</p>
             </td>
             <td class="mobile-hide">{{tmpPet.age}}</td>
             <td class="mobile-hide">
@@ -32,7 +34,9 @@
               <strong class="text-orange" v-if="tmpPet.status == 2" >Comunicado</strong>
               <strong class="text-green" v-if="tmpPet.status == 3" >Encontrato</strong>
             </td>
-            <td class="mobile-hide">{{tmpPet.information}}</td>
+            <td class="mobile-hide">
+              {{tmpPet.found_name}} - {{tmpPet.found_phone}}
+            </td>
             <td>
               <div class="q-pa-md q-gutter-sm">
                 <q-btn color="blue" icon="image" @click="addPetImagePrompt = true; pet = tmpPet" v-if="tmpPet.status != 3" />
