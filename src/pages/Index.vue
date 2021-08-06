@@ -20,7 +20,7 @@
           <strong>Desapareceu em:</strong> {{ pet.city }} - {{ pet.state }}
         </div>
         <div>
-          <q-btn color="black" label="Encontrei" class="btn--report" @click="promptPetFound = true; petFound = pet" />
+          <q-btn color="black" label="Encontrei" class="btn--report" @click="petFound = pet; promptPetFound = true" />
         </div>
         <hr />
       </div>
@@ -38,10 +38,14 @@
   <q-dialog v-model="promptPetFound" persistent>
     <q-card style="min-width: 350px">
       <q-card-section>
-        <div class="text-h6">Digite seu telefona para contato</div>
+        <div class="text-h6">Digite seus dados para contato</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="petFound.information" placeholder="Digite o seu telefone para contato"
+        <q-input dense v-model="petFound.informationName" placeholder="Digite o seu nome"
+          autofocus @keyup.enter="validatePetFound()" class="text-center" />
+      </q-card-section>
+      <q-card-section class="q-pt-none">
+        <q-input dense v-model="petFound.informationPhone" placeholder="Digite o seu telefone"
           mask="(##) ##### - ####"
           autofocus @keyup.enter="validatePetFound()" class="text-center" />
       </q-card-section>
@@ -84,13 +88,16 @@ export default defineComponent({
     },
 
     validatePetFound () {
-      if (this.petFound.information) {
+      if (this.petFound.informationName && this.petFound.informationPhone) {
+        this.petFound.information =
+          'Nome:' + this.petFound.informationName + ' ' +
+          'Telefone: ' + this.petFound.informationPhone
         this.setPetFound()
       } else {
         Notify.create(
           {
-            type: 'negative',
-            message: 'Digite o telefone'
+            type: 'warning',
+            message: 'Digite os dados para contato'
           }
         )
       }

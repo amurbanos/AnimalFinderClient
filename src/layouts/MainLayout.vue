@@ -209,7 +209,7 @@ export default defineComponent({
         Notify.create(
           {
             type: 'negative',
-            message: 'Erro ao salvar usuario'
+            message: 'Verifique os campos'
           }
         )
         this.user.errors = error.response.data
