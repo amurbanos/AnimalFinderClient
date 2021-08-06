@@ -32,7 +32,7 @@
         <div class="text-h6">Faca o login</div>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        <q-input dense v-model="user.email"  placeholder="Digite o seu email" autofocus @keyup.enter="doLogin()" />
+        <q-input dense v-model="user.email" placeholder="Digite o seu email" autofocus @keyup.enter="doLogin()" />
       </q-card-section>
       <q-card-section class="q-pt-none">
         <q-input dense v-model="user.password" type="password" placeholder="Senha" autofocus @keyup.enter="doLogin()" />
