@@ -10,7 +10,7 @@
         <table class="pets--table ">
           <tr>
             <th class="mobile-hide">Codigo</th>
-            <th>Nome</th>
+            <th style="min-width: 150px" >Nome</th>
             <th class="mobile-hide">Idade</th>
             <th class="mobile-hide">Status</th>
             <th class="mobile-hide">Comunicado</th>
@@ -22,16 +22,17 @@
               <strong>{{tmpPet.name}}</strong><br />
               <label class="mobile-only">Idade: {{tmpPet.age}}</label><br />
               <strong class="mobile-only text-red" v-if="tmpPet.status == 1" >Perdido</strong>
-              <strong class="mobile-only text-orange" v-if="tmpPet.status == 2" >Comunicado</strong>
               <strong class="mobile-only text-green" v-if="tmpPet.status == 3" >Encontrato</strong>
-              <p class="mobile-only">Info: {{tmpPet.information}}</p>
-              <p class="mobile-only">Info: {{tmpPet.city}}</p>
-              <p class="mobile-only">Info: {{tmpPet.state}}</p>
+              <p class="mobile-only">{{tmpPet.information}}</p>
+              <p class="mobile-only">{{tmpPet.city}} - {{tmpPet.state}}</p>
+              <strong class="mobile-only text-orange" v-if="tmpPet.status == 2" >Comunicado</strong> <br />
+              <strong v-if="tmpPet.status == 2" >{{tmpPet.found_name}} - {{tmpPet.found_phone}}</strong>
             </td>
             <td class="mobile-hide">{{tmpPet.age}}</td>
             <td class="mobile-hide">
               <strong class="text-red" v-if="tmpPet.status == 1" >Perdido</strong>
               <strong class="text-orange" v-if="tmpPet.status == 2" >Comunicado</strong>
+              <strong class="text-orange" v-if="tmpPet.status == 2" >{{tmpPet.found_name}} - {{tmpPet.found_phone}}</strong>
               <strong class="text-green" v-if="tmpPet.status == 3" >Encontrato</strong>
             </td>
             <td class="mobile-hide">
@@ -320,9 +321,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-  .main--row{
-    margin: 50px
-  }
 
   .btn--report{
     width: 98%;

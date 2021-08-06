@@ -139,10 +139,6 @@ export default defineComponent({
     margin: 0 0;
   }
 
-  .main--row{
-    margin: 50px
-  }
-
   .btn--report{
     width: 98%;
     margin: 0;
