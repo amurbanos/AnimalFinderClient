@@ -28,9 +28,9 @@
     <!-- Paginacao -->
     <div class="row">
       <div class="pagination text-center col-12">
-        <a href="javascript: void(0)" @click="getPage(1)" >&laquo;</a>
-        <a href="javascript: void(0)" v-for="index in data.total_pages" :key="index" @click="getPage(index)" >{{index}}</a>
-        <a href="javascript: void(0)" @click="getPage(data.total_pages)" >&raquo;</a>
+        <a href="/#/?page=1" @click="getPage(1)"  >&laquo;</a>
+        <a :href="'/#/?page=' + index" v-for="index in data.total_pages" @click="getPage(index)" :key="index" >{{index}}</a>
+        <a :href="'/#/?page=' + data.total_pages" @click="getPage(data.total_pages)">&raquo;</a>
       </div>
     </div>
   </q-page>
@@ -77,7 +77,7 @@ export default defineComponent({
     }
   },
   mounted () {
-    this.getPage(1)
+    this.getPage(this.$route.query.page)
   },
   methods: {
 
