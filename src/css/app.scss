@@ -25,7 +25,7 @@ body{}
     font-size: 22px;
   }
   a.selected{
-    color: red
+    background-color: #eee;
   }
 }
 
@@ -39,7 +39,7 @@ body{}
 		text-decoration: none
 	}
 	a.exit--link{
-		color: $red
+		color: $red;
 	}
 }
 
