@@ -30,7 +30,7 @@
       <div class="pagination text-center col-12">
         <a href="/#/?page=1" @click="getPage(1)"  >&laquo; Primeira</a>
         <a
-          v-bind:class = "($route.query.page == index)?'selected':'non--selected'"
+          v-bind:class = "($route.query.page == index || !$route.query.page && index == 1)?'selected':'non--selected'"
           :href="'/#/?page=' + index"
           v-for="index in data.total_pages"
           @click="getPage(index)"
