@@ -28,9 +28,14 @@
     <!-- Paginacao -->
     <div class="row">
       <div class="pagination text-center col-12">
-        <a href="/#/?page=1" @click="getPage(1)"  >&laquo;</a>
-        <a :href="'/#/?page=' + index" v-for="index in data.total_pages" @click="getPage(index)" :key="index" >{{index}}</a>
-        <a :href="'/#/?page=' + data.total_pages" @click="getPage(data.total_pages)">&raquo;</a>
+        <a href="/#/?page=1" @click="getPage(1)"  >&laquo; Primeira</a>
+        <a
+          v-bind:class = "($route.query.page == index)?'selected':'non--selected'"
+          :href="'/#/?page=' + index"
+          v-for="index in data.total_pages"
+          @click="getPage(index)"
+          :key="index" >{{index}}</a>
+        <a :href="'/#/?page=' + data.total_pages" @click="getPage(data.total_pages)">Ultima &raquo;</a>
       </div>
     </div>
   </q-page>
