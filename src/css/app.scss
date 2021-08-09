@@ -1,6 +1,8 @@
 // app global css in SCSS form
 
-body{}
+body{
+  background-color: #eee
+}
 
 .q-page-container{
  padding-top: 0;
@@ -25,7 +27,7 @@ body{}
     font-size: 22px;
   }
   a.selected{
-    background-color: #eee;
+    background-color: #ccc;
   }
 }
 
